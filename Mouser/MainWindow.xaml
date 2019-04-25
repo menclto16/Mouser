@@ -1,12 +1,49 @@
-﻿<Window x:Class="Mouser.MainWindow"
+﻿<Controls:MetroWindow x:Class="Mouser.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mouser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        ShowMaxRestoreButton="False"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="Manual"
+        Title="MainWindow" Height="700" Width="300">
     <Grid>
+        <Border BorderThickness="5">
+            <StackPanel VerticalAlignment="Center">
+                <Label>
+                    Profile
+                </Label>
+                <ComboBox></ComboBox>
+                <Label>
+                    Mouse Sensitivity
+                </Label>
+                <DockPanel HorizontalAlignment="Stretch">
+                    <Slider x:Name="SensitivitySlider" DockPanel.Dock="Left" Width="225" Minimum="1" Maximum="20" Value="{Binding ElementName=SensitivityTextbox,Path=Text}" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="ChangeMouseSensitivity"/>
+                    <TextBox x:Name="SensitivityTextbox" DockPanel.Dock="Right" Margin="5, 0 , 0, 0" Text="{Binding ElementName=SensitivitySlider,Path=Value}"></TextBox>
+                </DockPanel>
+                
+                <Label>
+                    Mouse Click Speed
+                </Label>
+
+                <DockPanel HorizontalAlignment="Stretch">
+                    <Slider x:Name="ClickSpeedSlider" DockPanel.Dock="Left" Width="225" Minimum="1" Maximum="5000" Value="{Binding ElementName=ClickSpeedTextbox,Path=Text}" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="ChangeMouseClickSpeed"/>
+                    <TextBox x:Name="ClickSpeedTextbox" DockPanel.Dock="Right" Margin="5, 0 , 0, 0" Text="{Binding ElementName=ClickSpeedSlider,Path=Value}"></TextBox>
+                </DockPanel>
+                <Label>
+                    Scroll Speed
+                </Label>
+
+                <DockPanel HorizontalAlignment="Stretch">
+                    <Slider x:Name="ScrollSpeedSlider" DockPanel.Dock="Left" Width="225" Minimum="1" Maximum="200" Value="{Binding ElementName=ScrollSpeedTextbox,Path=Text}" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="ChangeScrollSpeed"/>
+                    <TextBox x:Name="ScrollSpeedTextbox" DockPanel.Dock="Right" Margin="5, 0 , 0, 0" Text="{Binding ElementName=ScrollSpeedSlider,Path=Value}"></TextBox>
+                </DockPanel>
+            </StackPanel>
+        </Border>
         
     </Grid>
-</Window>
+</Controls:MetroWindow>
