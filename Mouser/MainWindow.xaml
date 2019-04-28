@@ -25,7 +25,14 @@
                     <Slider x:Name="SensitivitySlider" DockPanel.Dock="Left" Width="225" Minimum="1" Maximum="20" Value="{Binding ElementName=SensitivityTextbox,Path=Text}" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="ChangeMouseSensitivity"/>
                     <TextBox x:Name="SensitivityTextbox" DockPanel.Dock="Right" Margin="5, 0 , 0, 0" Text="{Binding ElementName=SensitivitySlider,Path=Value}"></TextBox>
                 </DockPanel>
-                
+
+                <DockPanel>
+                    <CheckBox x:Name="MousePrecisionCheckbox" Checked="ToggleMousePrecision" Unchecked="ToggleMousePrecision"></CheckBox>
+                    <Label>
+                        Enhance Mouse Precision
+                    </Label>
+                </DockPanel>
+
                 <Label>
                     Mouse Click Speed
                 </Label>

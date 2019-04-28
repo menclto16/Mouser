@@ -23,22 +23,36 @@ namespace Mouser
     public partial class MainWindow : MetroWindow
     {
         private OptionHandler optionHandler = new OptionHandler();
+        private bool initDone = false;
 
         public MainWindow()
         {
             InitializeComponent();
+            SensitivitySlider.Value = optionHandler.GetSensitivity();
+            MousePrecisionCheckbox.IsChecked = optionHandler.GetMousePrecision();
+            ClickSpeedSlider.Value = optionHandler.GetDoubleClick();
+            ScrollSpeedSlider.Value = optionHandler.GetScrollSpeed();
+            initDone = true;
         }
         private void ChangeMouseSensitivity(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            optionHandler.ChangeMouseSensitivity(Convert.ToUInt32(e.NewValue));
+            if (initDone)
+            optionHandler.ChangeMouseSensitivity(e.NewValue);
+        }
+        private void ToggleMousePrecision(object sender, RoutedEventArgs e)
+        {
+            if (initDone)
+            optionHandler.ChangeMousePrecision((bool)MousePrecisionCheckbox.IsChecked);
         }
         private void ChangeMouseClickSpeed(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            optionHandler.ChangeMouseClickSpeed(Convert.ToUInt32(e.NewValue));
+            if (initDone)
+            optionHandler.ChangeMouseClickSpeed(e.NewValue);
         }
         private void ChangeScrollSpeed(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            optionHandler.ChangeScrollSpeed(Convert.ToUInt32(e.NewValue));
+            if (initDone)
+            optionHandler.ChangeScrollSpeed(e.NewValue);
         }
     }
 }
