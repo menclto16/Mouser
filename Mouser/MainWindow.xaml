@@ -10,14 +10,22 @@
         ShowMaxRestoreButton="False"
         ResizeMode="CanMinimize"
         WindowStartupLocation="Manual"
-        Title="MainWindow" Height="700" Width="300">
+        Title="Mouser" Height="325" Width="300">
     <Grid>
         <Border BorderThickness="5">
             <StackPanel VerticalAlignment="Center">
                 <Label>
                     Profile
                 </Label>
-                <ComboBox></ComboBox>
+                <DockPanel>
+                    <TextBox x:Name="NewProfileTextbox" Width="225"></TextBox>
+                    <Button Width="60" Click="ButtonAdd_Click">Add</Button>
+                </DockPanel>
+                <DockPanel>
+                    <ComboBox x:Name="ProfilesCombobox" Width="225" SelectionChanged="ComboBox_SelectionChanged" DisplayMemberPath="Name" SelectedValuePath="Name"></ComboBox>
+                    <Button Width="60" Click="ButtonSave_Click">Save</Button>
+                </DockPanel>
+                
                 <Label>
                     Mouse Sensitivity
                 </Label>

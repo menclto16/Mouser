@@ -22,6 +22,13 @@ namespace Mouser
         [DllImport("user32.dll")]
         static extern uint GetDoubleClickTime();
 
+        public void ChangeProfile(double sensitivity, bool mousePrecision, double clickSpeed, double scrollSpeed)
+        {
+            ChangeMouseSensitivity(sensitivity);
+            ChangeMousePrecision(mousePrecision);
+            ChangeMouseClickSpeed(clickSpeed);
+            ChangeScrollSpeed(scrollSpeed);
+        }
         public void ChangeMouseSensitivity(double value)
         {
             IntPtr ptr = new IntPtr(Convert.ToUInt32(value));

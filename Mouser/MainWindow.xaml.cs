@@ -23,16 +23,53 @@ namespace Mouser
     public partial class MainWindow : MetroWindow
     {
         private OptionHandler optionHandler = new OptionHandler();
+        private FileHandler fileHandler = new FileHandler();
+        private List<MouseProfile> profiles = new List<MouseProfile>();
         private bool initDone = false;
 
         public MainWindow()
         {
             InitializeComponent();
-            SensitivitySlider.Value = optionHandler.GetSensitivity();
-            MousePrecisionCheckbox.IsChecked = optionHandler.GetMousePrecision();
-            ClickSpeedSlider.Value = optionHandler.GetDoubleClick();
-            ScrollSpeedSlider.Value = optionHandler.GetScrollSpeed();
+
+            this.Topmost = true;
+
+            if (fileHandler.ReadFile().Count() == 0)
+            {
+                MouseProfile mouseProfile = new MouseProfile();
+                mouseProfile.Name = "Initial Profile";
+                mouseProfile.Sensitivity = optionHandler.GetSensitivity();
+                mouseProfile.MousePrecision = optionHandler.GetMousePrecision();
+                mouseProfile.DoubleClickSpeed = optionHandler.GetDoubleClick();
+                mouseProfile.ScrollSpeed = optionHandler.GetScrollSpeed();
+                profiles.Add(mouseProfile);
+                ProfilesCombobox.Items.Add(profiles[0]);
+            }
+            else
+            {
+                profiles = fileHandler.ReadFile();
+                fillCombobox();
+            }
+
+            ProfilesCombobox.SelectedIndex = 0;
+            updateControls();
             initDone = true;
+        }
+        private void updateControls()
+        {
+            int selectedProfile = ProfilesCombobox.SelectedIndex;
+            SensitivitySlider.Value = profiles[selectedProfile].Sensitivity;
+            MousePrecisionCheckbox.IsChecked = profiles[selectedProfile].MousePrecision;
+            ClickSpeedSlider.Value = profiles[selectedProfile].DoubleClickSpeed;
+            ScrollSpeedSlider.Value = profiles[selectedProfile].ScrollSpeed;
+        }
+        private void fillCombobox()
+        {
+            ProfilesCombobox.Items.Clear();
+
+            foreach (var profile in profiles)
+            {
+                ProfilesCombobox.Items.Add(profile);
+            }
         }
         private void ChangeMouseSensitivity(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -53,6 +90,39 @@ namespace Mouser
         {
             if (initDone)
             optionHandler.ChangeScrollSpeed(e.NewValue);
+        }
+        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Find(x => x.Name.Contains(NewProfileTextbox.Text)) == null)
+            {
+                MouseProfile mouseProfile = new MouseProfile();
+                mouseProfile.Name = NewProfileTextbox.Text;
+                mouseProfile.Sensitivity = (int)SensitivitySlider.Value;
+                mouseProfile.MousePrecision = (bool)MousePrecisionCheckbox.IsChecked;
+                mouseProfile.DoubleClickSpeed = (int)ClickSpeedSlider.Value;
+                mouseProfile.ScrollSpeed = (int)ScrollSpeedSlider.Value;
+                profiles.Add(mouseProfile);
+
+                fillCombobox();
+
+                NewProfileTextbox.Text = "";
+                ProfilesCombobox.SelectedIndex = ProfilesCombobox.Items.Count - 1;
+            }
+        }
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = ProfilesCombobox.SelectedIndex;
+            profiles[selectedIndex].Sensitivity = (int)SensitivitySlider.Value;
+            profiles[selectedIndex].MousePrecision = (bool)MousePrecisionCheckbox.IsChecked;
+            profiles[selectedIndex].DoubleClickSpeed = (int)ClickSpeedSlider.Value;
+            profiles[selectedIndex].ScrollSpeed = (int)ScrollSpeedSlider.Value;
+
+            fileHandler.SaveFile(profiles);
+        }
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ProfilesCombobox.SelectedIndex != -1)
+            updateControls();
         }
     }
 }

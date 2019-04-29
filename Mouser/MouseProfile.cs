@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Mouser
 {
-    class MouseProfile
+    public class MouseProfile
     {
         public string Name { get; set; }
         public int Sensitivity { get; set; }
+        public bool MousePrecision { get; set; }
         public int DoubleClickSpeed { get; set; }
         public int ScrollSpeed { get; set; }
     }

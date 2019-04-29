@@ -15,23 +15,22 @@ namespace Mouser
             TypeNameHandling = TypeNameHandling.All
         };
 
-        private List<MouseProfile> mouseProfiles = new List<MouseProfile>();
+        public void SaveFile(List<MouseProfile> mouseProfiles)
+        {
+            string json = JsonConvert.SerializeObject(mouseProfiles, settings);
 
-        public FileHandler()
+            File.WriteAllText("mouseProfiles.json", json);
+        }
+
+        public List<MouseProfile> ReadFile()
         {
             if (File.Exists("mouseProfiles.json"))
             {
                 string jsonFromFile = File.ReadAllText("mouseProfiles.json");
 
-                mouseProfiles = JsonConvert.DeserializeObject<List<MouseProfile>>(jsonFromFile, settings);
+                return JsonConvert.DeserializeObject<List<MouseProfile>>(jsonFromFile, settings);
             }
-        }
-
-        private void saveFile()
-        {
-            string json = JsonConvert.SerializeObject(mouseProfiles, settings);
-
-            File.WriteAllText("mouseProfiles.json", json);
+            else return new List<MouseProfile>();
         }
     }
 }
