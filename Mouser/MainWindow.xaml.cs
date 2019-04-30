@@ -24,6 +24,7 @@ namespace Mouser
     {
         private OptionHandler optionHandler = new OptionHandler();
         private FileHandler fileHandler = new FileHandler();
+        private APIHandler apiHandler = new APIHandler();
         private List<MouseProfile> profiles = new List<MouseProfile>();
         private bool initDone = false;
 
@@ -52,6 +53,9 @@ namespace Mouser
 
             ProfilesCombobox.SelectedIndex = 0;
             updateControls();
+
+            apiHandler.POST("");
+
             initDone = true;
         }
         private void updateControls()

@@ -32,5 +32,16 @@ namespace Mouser
             }
             else return new List<MouseProfile>();
         }
+
+        public string GetJsonString()
+        {
+            if(File.Exists("mouseProfiles.json"))
+            {
+                string jsonFromFile = File.ReadAllText("mouseProfiles.json");
+
+                return jsonFromFile;
+            }
+            else return "";
+        }
     }
 }
