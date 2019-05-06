@@ -57,6 +57,7 @@
                     <Slider x:Name="ScrollSpeedSlider" DockPanel.Dock="Left" Width="225" Minimum="1" Maximum="200" Value="{Binding ElementName=ScrollSpeedTextbox,Path=Text}" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="ChangeScrollSpeed"/>
                     <TextBox x:Name="ScrollSpeedTextbox" DockPanel.Dock="Right" Margin="5, 0 , 0, 0" Text="{Binding ElementName=ScrollSpeedSlider,Path=Value}"></TextBox>
                 </DockPanel>
+                <Label x:Name="ApplicationToken" Foreground="#636363"></Label>
             </StackPanel>
         </Border>
         

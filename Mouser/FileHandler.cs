@@ -33,11 +33,27 @@ namespace Mouser
             else return new List<MouseProfile>();
         }
 
+        public List<MouseProfile> DeserializeJsonString(string json)
+        {
+            return JsonConvert.DeserializeObject<List<MouseProfile>>(json, settings);
+        }
+
         public string GetJsonString()
         {
             if(File.Exists("mouseProfiles.json"))
             {
                 string jsonFromFile = File.ReadAllText("mouseProfiles.json");
+
+                return jsonFromFile;
+            }
+            else return "";
+        }
+
+        public string GetToken()
+        {
+            if (File.Exists("applicationToken.cfg"))
+            {
+                string jsonFromFile = File.ReadAllText("applicationToken.cfg");
 
                 return jsonFromFile;
             }

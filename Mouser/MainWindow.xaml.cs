@@ -34,7 +34,11 @@ namespace Mouser
 
             this.Topmost = true;
 
-            if (fileHandler.ReadFile().Count() == 0)
+            ApplicationToken.Content = "apptoken: " + fileHandler.GetToken();
+            
+            Task.Run(() => apiHandler.GetDataFromDB()).Wait();
+
+            if (fileHandler.ReadFile() == null)
             {
                 MouseProfile mouseProfile = new MouseProfile();
                 mouseProfile.Name = "Initial Profile";
@@ -53,8 +57,6 @@ namespace Mouser
 
             ProfilesCombobox.SelectedIndex = 0;
             updateControls();
-
-            apiHandler.POST("");
 
             initDone = true;
         }
@@ -122,6 +124,7 @@ namespace Mouser
             profiles[selectedIndex].ScrollSpeed = (int)ScrollSpeedSlider.Value;
 
             fileHandler.SaveFile(profiles);
+            apiHandler.SaveDataToDB();
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

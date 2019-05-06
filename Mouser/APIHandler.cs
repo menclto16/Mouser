@@ -13,19 +13,30 @@ namespace Mouser
 
         FileHandler fileHandler = new FileHandler();
 
-        public async void GET()
-        {
-            var response = await client.GetAsync("https://student.sps-prosek.cz/~menclto16/php/RestAPI/api.php");
-        }
-        public async void POST(string json)
-        {
-            json = fileHandler.GetJsonString();
+        private string apiUrl = "https://menclto16.sps-prosek.cz/RestAPI/api.php";
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://student.sps-prosek.cz/~menclto16/php/RestAPI/api.php");
+        public async Task GetDataFromDB()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
+            var keyValues = new List<KeyValuePair<string, string>>();
+            keyValues.Add(new KeyValuePair<string, string>("token", fileHandler.GetToken()));
+            request.Content = new FormUrlEncodedContent(keyValues);
+            var response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+
+            fileHandler.SaveFile(fileHandler.DeserializeJsonString(responseContent));
+        }
+        public async void SaveDataToDB()
+        {
+            string json = fileHandler.GetJsonString();
+
+            var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
             var keyValues = new List<KeyValuePair<string, string>>();
             keyValues.Add(new KeyValuePair<string, string>("data", json));
+            keyValues.Add(new KeyValuePair<string, string>("token", fileHandler.GetToken()));
             request.Content = new FormUrlEncodedContent(keyValues);
-            await client.SendAsync(request);
+            var response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
         }
     }
 }

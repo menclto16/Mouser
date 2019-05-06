@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.ComponentModel;
+using System.IO;
 
 namespace Mouser
 {
@@ -17,6 +18,16 @@ namespace Mouser
         private System.Windows.Forms.NotifyIcon _notifyIcon;
 
         private bool _isExit;
+
+        public App()
+        {
+            if (File.ReadAllText("applicationToken.cfg") == "")
+            {
+                Random rnd = new Random();
+                int token = rnd.Next(100000, 999999);
+                File.WriteAllText("applicationToken.cfg", token.ToString());
+            }
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
