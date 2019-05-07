@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,9 +23,12 @@ namespace Mouser
             keyValues.Add(new KeyValuePair<string, string>("token", fileHandler.GetToken()));
             request.Content = new FormUrlEncodedContent(keyValues);
             var response = await client.SendAsync(request);
-            string responseContent = await response.Content.ReadAsStringAsync();
 
-            fileHandler.SaveFile(fileHandler.DeserializeJsonString(responseContent));
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string responseContent = await response.Content.ReadAsStringAsync();
+                fileHandler.SaveFile(fileHandler.DeserializeJsonString(responseContent));
+            }
         }
         public async void SaveDataToDB()
         {

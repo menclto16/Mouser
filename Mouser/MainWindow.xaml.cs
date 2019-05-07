@@ -38,7 +38,7 @@ namespace Mouser
             
             Task.Run(() => apiHandler.GetDataFromDB()).Wait();
 
-            if (fileHandler.ReadFile() == null)
+            if (fileHandler.ReadFile() == null | fileHandler.ReadFile().Count == 0)
             {
                 MouseProfile mouseProfile = new MouseProfile();
                 mouseProfile.Name = "Initial Profile";
